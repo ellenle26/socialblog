@@ -4,6 +4,8 @@ import { Redirect, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FB_APP_ID } from "../redux/constants/auth.constants";
+import FacebookLogin from "react-facebook-login";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -29,6 +31,11 @@ const LoginPage = () => {
       return;
     }
     dispatch(authActions.loginRequest(email, password));
+  };
+
+  // log in with facebook
+  const loginWithFacebook = (response) => {
+    dispatch(authActions.loginFacebookRequest(response.accessToken));
   };
 
   if (isAuthenticated) return <Redirect to="/" />;
@@ -91,6 +98,37 @@ const LoginPage = () => {
                 Login
               </Button>
             )}
+
+            <div className="d-flex flex-column text-center">
+              <FacebookLogin
+                appId={FB_APP_ID}
+                fields="name,email,picture"
+                callback={loginWithFacebook}
+                icon="fa-facebook"
+                onFailure={(err) => {
+                  console.log("FB LOGIN ERROR:", err);
+                }}
+                containerStyle={{
+                  textAlign: "center",
+                  backgroundColor: "#3b5998",
+                  borderColor: "#3b5998",
+                  flex: 1,
+                  display: "flex",
+                  color: "#fff",
+                  cursor: "pointer",
+                  marginBottom: "3px",
+                }}
+                buttonStyle={{
+                  flex: 1,
+                  textTransform: "none",
+                  padding: "12px",
+                  background: "none",
+                  border: "none",
+                }}
+              />
+            </div>
+            
+
             <p>
               Don't have an account? <Link to="/register">Sign Up</Link>
             </p>

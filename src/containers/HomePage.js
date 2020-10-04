@@ -4,6 +4,7 @@ import BlogCard from "components/BlogCard";
 import { useSelector, useDispatch } from "react-redux";
 import { blogActions } from "redux/actions";
 import { useHistory, Link } from "react-router-dom";
+import Pagination from "../components/PaginationBar";
 
 const HomePage = () => {
   const history = useHistory();

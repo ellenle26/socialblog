@@ -1,3 +1,6 @@
+export const FB_APP_ID = "682345822682517";
+// export const FB_APP_ID = process.env.FB_APP_ID;
+
 export const REGISTER_REQUEST = "AUTH.REGISTER_REQUEST";
 export const REGISTER_SUCCESS = "AUTH.REGISTER_SUCCESS";
 export const REGISTER_FAILURE = "AUTH.REGISTER_FAILURE";
