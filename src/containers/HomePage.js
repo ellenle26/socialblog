@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import BlogCard from "components/BlogCard";
 import { useSelector, useDispatch } from "react-redux";
 import { blogActions } from "redux/actions";
 import { useHistory, Link } from "react-router-dom";
-import Pagination from "../components/PaginationBar";
+import PaginationBar from "../components/PaginationBar";
 
 const HomePage = () => {
   const history = useHistory();
+  const [pageNum, setPageNum] = useState(1);
+  const totalPageNum = useSelector((state) => state.blog.totalPageNum);
   let blogList = useSelector((state) => state.blog.blogs);
   let loading = useSelector((state) => state.blog.loading);
 
@@ -20,8 +22,8 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    dispatch(blogActions.getBlogList());
-  }, [dispatch]);
+    dispatch(blogActions.getBlogList(pageNum));
+  }, [dispatch, pageNum]);
 
   return (
     <Container>
@@ -32,6 +34,13 @@ const HomePage = () => {
           <Button variant="primary">Write now</Button>
         </Link>
       )}
+
+      <PaginationBar
+        pageNum={pageNum}
+        setPageNum={setPageNum}
+        totalPageNum={totalPageNum}
+        loading={loading}
+      />
 
       <Row style={{ margin: "20px 0" }}>
         <Col md={{ span: 6, offset: 3 }}>
